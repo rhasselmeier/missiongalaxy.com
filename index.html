@@ -57,7 +57,7 @@ for (let i = 0; i < 90; i++) {
   s.style.transform = "scale(" + (0.5 + Math.random()*1.4) + ")";
   st.appendChild(s);
 }
-const ENDPOINT = "PENDING_BRIDGE_URL";
+const ENDPOINT = "https://agii-vapi-bridge-9383.twil.io/web-contact";
 document.getElementById("contact-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const f = e.target, s = document.getElementById("form-status");
