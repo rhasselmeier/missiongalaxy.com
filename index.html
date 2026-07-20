@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mission Galaxy — Coming 2027</title>
+<meta name="description" content="Mission Galaxy — a game in development. Launching 2027.">
+<style>
+  :root { --space:#0a0820; --nebula:#7b5cff; --cyan:#4dd8e6; --ink:#e8e6f7; --dim:#8d89b0; }
+  * { box-sizing:border-box; margin:0; }
+  html, body { height:100%; }
+  body { font-family:'Segoe UI', system-ui, sans-serif; background:radial-gradient(ellipse at 30% 20%, #171238 0%, var(--space) 60%); color:var(--ink); line-height:1.6; display:flex; flex-direction:column; overflow-x:hidden; }
+  .stars { position:fixed; inset:0; pointer-events:none; }
+  .stars i { position:absolute; width:2px; height:2px; border-radius:50%; background:#fff; opacity:.7; animation:tw 3s infinite alternate; }
+  @keyframes tw { from{opacity:.15} to{opacity:.85} }
+  main { flex:1; display:flex; align-items:center; justify-content:center; text-align:center; padding:3rem 1.5rem; }
+  .kicker { color:var(--cyan); font-size:.8rem; letter-spacing:.5em; text-transform:uppercase; }
+  h1 { font-size:clamp(2.6rem,8vw,4.6rem); font-weight:800; letter-spacing:.12em; text-transform:uppercase; margin:.8rem 0; background:linear-gradient(180deg, #fff 30%, var(--nebula)); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 0 42px rgba(123,92,255,.35); }
+  .year { display:inline-block; border:1px solid var(--cyan); color:var(--cyan); letter-spacing:.4em; text-transform:uppercase; font-size:.9rem; padding:.6rem 1.6rem .6rem 2rem; margin-top:.6rem; }
+  .blurb { max-width:480px; margin:1.8rem auto 0; color:var(--dim); font-size:1rem; }
+  form { margin:2.2rem auto 0; max-width:420px; display:grid; gap:.7rem; }
+  input { width:100%; padding:.75rem .9rem; border:1px solid #37325e; border-radius:6px; background:rgba(10,8,32,.7); color:var(--ink); font:inherit; }
+  input:focus { outline:2px solid var(--nebula); }
+  button { background:linear-gradient(90deg, var(--nebula), var(--cyan)); color:#0a0820; font-weight:800; letter-spacing:.15em; text-transform:uppercase; padding:.8rem; border:0; border-radius:6px; cursor:pointer; }
+  #form-status { font-size:.88rem; color:var(--cyan); min-height:1.2em; }
+  .fineprint { font-size:.75rem; color:#635f85; }
+  .fineprint a { color:var(--dim); }
+  footer { text-align:center; padding:1.6rem; font-size:.78rem; color:#635f85; }
+  footer a { color:var(--dim); text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<main>
+  <div>
+    <div class="kicker">A game in development</div>
+    <h1>Mission Galaxy</h1>
+    <div class="year">Launching 2027</div>
+    <p class="blurb">Something is taking shape out here. Leave your email and be there when it lands.</p>
+    <form id="contact-form">
+      <input id="email" name="email" type="email" required placeholder="your@email.com" autocomplete="email" aria-label="Email">
+      <button type="submit">Notify Me</button>
+      <div id="form-status" role="status"></div>
+      <p class="fineprint">Used only for launch updates — <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a></p>
+    </form>
+  </div>
+</main>
+<footer>&copy; 2026 Mission Galaxy &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a></footer>
+
+<script>
+const st = document.getElementById("stars");
+for (let i = 0; i < 90; i++) {
+  const s = document.createElement("i");
+  s.style.left = Math.random()*100 + "vw";
+  s.style.top = Math.random()*100 + "vh";
+  s.style.animationDelay = (Math.random()*3) + "s";
+  s.style.transform = "scale(" + (0.5 + Math.random()*1.4) + ")";
+  st.appendChild(s);
+}
+const ENDPOINT = "PENDING_BRIDGE_URL";
+document.getElementById("contact-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const f = e.target, s = document.getElementById("form-status");
+  const data = { name:"(launch list)", email:f.email.value, message:"Mission Galaxy launch notify",
+                 business:"MG", source:"missiongalaxy.com", request_type:"Launch notify" };
+  if (ENDPOINT.startsWith("PENDING")) { s.textContent = "Sign-ups open shortly — check back soon."; return; }
+  try {
+    const r = await fetch(ENDPOINT, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(data) });
+    if (!r.ok) throw 0;
+    f.reset(); s.textContent = "Locked in. See you at launch.";
+  } catch { s.textContent = "Transmission failed — please try again later."; }
+});
+</script>
+</body>
+</html>
