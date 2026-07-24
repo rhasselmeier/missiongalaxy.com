@@ -347,27 +347,68 @@
     margin-bottom: 1.15rem;
     text-indent: 0.48em;
   }
-  /* NASA mission-patch style white panel behind logo */
+  /* NASA mission-patch style octagonal panel behind logo */
   .hero-logo-wrap {
+    --patch-cut: 29.29%; /* regular octagon (equal sides) */
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.25rem;
-    width: min(100%, 340px);
+    /* Square frame sized to fit logo art + modest padding */
+    width: min(92vw, 320px);
     aspect-ratio: 1;
-    border-radius: 50%;
+    padding: 7%;
+    box-sizing: border-box;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  /* Outer navy rim — always behind the logo */
+  .hero-logo-wrap::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: var(--navy);
+    clip-path: polygon(
+      var(--patch-cut) 0%,
+      calc(100% - var(--patch-cut)) 0%,
+      100% var(--patch-cut),
+      100% calc(100% - var(--patch-cut)),
+      calc(100% - var(--patch-cut)) 100%,
+      var(--patch-cut) 100%,
+      0% calc(100% - var(--patch-cut)),
+      0% var(--patch-cut)
+    );
+    filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.35));
+  }
+  /* Solid white face (slightly inset = navy border thickness) */
+  .hero-logo-wrap::after {
+    content: "";
+    position: absolute;
+    inset: clamp(3px, 1.75%, 6px);
+    z-index: 0;
+    pointer-events: none;
     background: #fff;
-    border: 6px solid var(--navy);
-    box-shadow:
-      0 0 0 3px #fff,
-      0 0 0 7px var(--navy),
-      0 10px 28px rgba(0, 0, 0, 0.35);
+    clip-path: polygon(
+      var(--patch-cut) 0%,
+      calc(100% - var(--patch-cut)) 0%,
+      100% var(--patch-cut),
+      100% calc(100% - var(--patch-cut)),
+      calc(100% - var(--patch-cut)) 100%,
+      var(--patch-cut) 100%,
+      0% calc(100% - var(--patch-cut)),
+      0% var(--patch-cut)
+    );
   }
   h1.hero-title {
     position: relative;
     z-index: 1;
     margin: 0;
+    width: 100%;
     font-size: 0;
     line-height: 0;
   }
@@ -375,9 +416,8 @@
     position: relative;
     z-index: 1;
     display: block;
-    width: min(100%, 300px);
+    width: 100%;
     height: auto;
-    max-height: min(42vw, 300px);
     object-fit: contain;
   }
   .year {
@@ -541,11 +581,8 @@
       letter-spacing: 0.15em;
     }
     .hero-logo-wrap {
-      width: min(100%, 260px);
-    }
-    .hero-logo {
-      width: min(100%, 220px);
-      max-height: min(52vw, 220px);
+      width: min(88vw, 260px);
+      padding: 7.5%;
     }
     .drift--3 { display: none; }
     .card { padding: 1.25rem 1rem 1.1rem; }
