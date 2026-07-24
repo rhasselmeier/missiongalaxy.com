@@ -347,35 +347,33 @@
     margin-bottom: 1.15rem;
     text-indent: 0.48em;
   }
-  /* NASA mission-patch behind transparent mg-logo (circle emblem + wordmark) */
+  /* White rectangular patch behind logo — exceeds logo via padding */
   .hero-logo-wrap {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.25rem;
-    width: min(92vw, 320px);
-    aspect-ratio: 1;
-    /* modest padding so logo art sits inside white face + double ring */
-    padding: 5%;
+    width: min(92vw, 340px);
     box-sizing: border-box;
+    /* Frame larger than logo so mark sits inside */
+    padding: clamp(14px, 5vw, 22px);
     background: transparent;
     border: 0;
-    border-radius: 0;
-    box-shadow: none;
   }
-  /* Always behind the logo image; scales 1:1 with the wrap */
+  /* Solid white rectangle + navy double-ring; always behind logo */
   .hero-patch {
     position: absolute;
     inset: 0;
     z-index: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
     pointer-events: none;
-    overflow: visible;
-    color: var(--navy);
-    filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.35));
+    background: #ffffff;
+    border: 5px solid var(--navy);
+    border-radius: 4px;
+    box-shadow:
+      0 0 0 3px #ffffff,
+      0 0 0 7px var(--navy),
+      0 10px 28px rgba(0, 0, 0, 0.35);
   }
   h1.hero-title {
     position: relative;
@@ -554,8 +552,8 @@
       letter-spacing: 0.15em;
     }
     .hero-logo-wrap {
-      width: min(88vw, 260px);
-      padding: 7.5%;
+      width: min(90vw, 280px);
+      padding: clamp(12px, 4.5vw, 18px);
     }
     .drift--3 { display: none; }
     .card { padding: 1.25rem 1rem 1.1rem; }
@@ -637,35 +635,7 @@
       <div class="hero">
         <p class="kicker">A game in development</p>
         <div class="hero-logo-wrap">
-          <!--
-            Solid white NASA mission-patch for transparent mg-logo:
-            circular emblem top + wider wordmark bar + soft chamfered corners.
-            Navy double-ring via layered strokes. Always z-index:0 behind logo.
-          -->
-          <svg class="hero-patch" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
-            <defs>
-              <!--
-                Large circular bulk for the emblem (~top 70%), then flaring wider
-                into a rectangular text base with soft chamfered bottom corners.
-              -->
-              <path id="hero-patch-shape" d="
-                M 14 70
-                A 40 40 0 1 0 86 70
-                L 96 78
-                L 96 88
-                L 88 98
-                L 12 98
-                L 4 88
-                L 4 78
-                Z"/>
-            </defs>
-            <!-- White fill + thick navy stroke (outer ring foundation) -->
-            <use href="#hero-patch-shape" fill="#ffffff" stroke="currentColor" stroke-width="5.5" stroke-linejoin="round"/>
-            <!-- White middle ring of the double border -->
-            <use href="#hero-patch-shape" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round"/>
-            <!-- Thin inner navy ring -->
-            <use href="#hero-patch-shape" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
-          </svg>
+          <span class="hero-patch" aria-hidden="true"></span>
           <h1 class="hero-title">
             <img src="images/mg-logo.svg" alt="Mission Galaxy" class="hero-logo" width="300" height="300">
           </h1>
