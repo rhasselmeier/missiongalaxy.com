@@ -347,62 +347,33 @@
     margin-bottom: 1.15rem;
     text-indent: 0.48em;
   }
-  /* NASA mission-patch style octagonal panel behind logo */
+  /* NASA mission-patch: circular top, rectangular bottom, chamfered corners */
   .hero-logo-wrap {
-    --patch-cut: 29.29%; /* regular octagon (equal sides) */
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.25rem;
-    /* Square frame sized to fit logo art + modest padding */
     width: min(92vw, 320px);
     aspect-ratio: 1;
-    padding: 7%;
+    padding: 6.5%;
     box-sizing: border-box;
     background: transparent;
     border: 0;
     border-radius: 0;
     box-shadow: none;
   }
-  /* Outer navy rim — always behind the logo */
-  .hero-logo-wrap::before {
-    content: "";
+  /* Patch SVG sits strictly behind the logo and scales with the wrap */
+  .hero-patch {
     position: absolute;
     inset: 0;
     z-index: 0;
+    width: 100%;
+    height: 100%;
     pointer-events: none;
-    background: var(--navy);
-    clip-path: polygon(
-      var(--patch-cut) 0%,
-      calc(100% - var(--patch-cut)) 0%,
-      100% var(--patch-cut),
-      100% calc(100% - var(--patch-cut)),
-      calc(100% - var(--patch-cut)) 100%,
-      var(--patch-cut) 100%,
-      0% calc(100% - var(--patch-cut)),
-      0% var(--patch-cut)
-    );
+    overflow: visible;
+    color: var(--navy);
     filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.35));
-  }
-  /* Solid white face (slightly inset = navy border thickness) */
-  .hero-logo-wrap::after {
-    content: "";
-    position: absolute;
-    inset: clamp(3px, 1.75%, 6px);
-    z-index: 0;
-    pointer-events: none;
-    background: #fff;
-    clip-path: polygon(
-      var(--patch-cut) 0%,
-      calc(100% - var(--patch-cut)) 0%,
-      100% var(--patch-cut),
-      100% calc(100% - var(--patch-cut)),
-      calc(100% - var(--patch-cut)) 100%,
-      var(--patch-cut) 100%,
-      0% calc(100% - var(--patch-cut)),
-      0% var(--patch-cut)
-    );
   }
   h1.hero-title {
     position: relative;
@@ -664,6 +635,28 @@
       <div class="hero">
         <p class="kicker">A game in development</p>
         <div class="hero-logo-wrap">
+          <!-- NASA-style patch silhouette: round top, rect bottom, chamfered corners; navy double-ring + white fill -->
+          <svg class="hero-patch" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+            <defs>
+              <!-- Circular top (logo emblem) + rectangular base (wordmark) with soft chamfered corners -->
+              <path id="hero-patch-shape" d="
+                M 4 50
+                A 46 46 0 0 0 96 50
+                L 96 76
+                L 86 95
+                L 14 95
+                L 4 76
+                Z"/>
+            </defs>
+            <!-- Outer navy ring -->
+            <use href="#hero-patch-shape" fill="currentColor"/>
+            <!-- White spacer ring -->
+            <use href="#hero-patch-shape" fill="#fff" transform="translate(50 50) scale(0.955) translate(-50 -50)"/>
+            <!-- Inner navy ring -->
+            <use href="#hero-patch-shape" fill="currentColor" transform="translate(50 50) scale(0.915) translate(-50 -50)"/>
+            <!-- Solid white face -->
+            <use href="#hero-patch-shape" fill="#fff" transform="translate(50 50) scale(0.875) translate(-50 -50)"/>
+          </svg>
           <h1 class="hero-title">
             <img src="images/mg-logo.svg" alt="Mission Galaxy" class="hero-logo" width="300" height="300">
           </h1>
