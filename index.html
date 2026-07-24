@@ -347,7 +347,7 @@
     margin-bottom: 1.15rem;
     text-indent: 0.48em;
   }
-  /* NASA mission-patch: circular top, rectangular bottom, chamfered corners */
+  /* NASA mission-patch behind transparent mg-logo (circle emblem + wordmark) */
   .hero-logo-wrap {
     position: relative;
     display: flex;
@@ -356,20 +356,22 @@
     margin: 0 auto 1.25rem;
     width: min(92vw, 320px);
     aspect-ratio: 1;
-    padding: 6.5%;
+    /* modest padding so logo art sits inside white face + double ring */
+    padding: 5%;
     box-sizing: border-box;
     background: transparent;
     border: 0;
     border-radius: 0;
     box-shadow: none;
   }
-  /* Patch SVG sits strictly behind the logo and scales with the wrap */
+  /* Always behind the logo image; scales 1:1 with the wrap */
   .hero-patch {
     position: absolute;
     inset: 0;
     z-index: 0;
     width: 100%;
     height: 100%;
+    display: block;
     pointer-events: none;
     overflow: visible;
     color: var(--navy);
@@ -635,27 +637,34 @@
       <div class="hero">
         <p class="kicker">A game in development</p>
         <div class="hero-logo-wrap">
-          <!-- NASA-style patch silhouette: round top, rect bottom, chamfered corners; navy double-ring + white fill -->
+          <!--
+            Solid white NASA mission-patch for transparent mg-logo:
+            circular emblem top + wider wordmark bar + soft chamfered corners.
+            Navy double-ring via layered strokes. Always z-index:0 behind logo.
+          -->
           <svg class="hero-patch" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
             <defs>
-              <!-- Circular top (logo emblem) + rectangular base (wordmark) with soft chamfered corners -->
+              <!--
+                Large circular bulk for the emblem (~top 70%), then flaring wider
+                into a rectangular text base with soft chamfered bottom corners.
+              -->
               <path id="hero-patch-shape" d="
-                M 4 50
-                A 46 46 0 0 0 96 50
-                L 96 76
-                L 86 95
-                L 14 95
-                L 4 76
+                M 14 70
+                A 40 40 0 1 0 86 70
+                L 96 78
+                L 96 88
+                L 88 98
+                L 12 98
+                L 4 88
+                L 4 78
                 Z"/>
             </defs>
-            <!-- Outer navy ring -->
-            <use href="#hero-patch-shape" fill="currentColor"/>
-            <!-- White spacer ring -->
-            <use href="#hero-patch-shape" fill="#fff" transform="translate(50 50) scale(0.955) translate(-50 -50)"/>
-            <!-- Inner navy ring -->
-            <use href="#hero-patch-shape" fill="currentColor" transform="translate(50 50) scale(0.915) translate(-50 -50)"/>
-            <!-- Solid white face -->
-            <use href="#hero-patch-shape" fill="#fff" transform="translate(50 50) scale(0.875) translate(-50 -50)"/>
+            <!-- White fill + thick navy stroke (outer ring foundation) -->
+            <use href="#hero-patch-shape" fill="#ffffff" stroke="currentColor" stroke-width="5.5" stroke-linejoin="round"/>
+            <!-- White middle ring of the double border -->
+            <use href="#hero-patch-shape" fill="none" stroke="#ffffff" stroke-width="3.2" stroke-linejoin="round"/>
+            <!-- Thin inner navy ring -->
+            <use href="#hero-patch-shape" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linejoin="round"/>
           </svg>
           <h1 class="hero-title">
             <img src="images/mg-logo.svg" alt="Mission Galaxy" class="hero-logo" width="300" height="300">
